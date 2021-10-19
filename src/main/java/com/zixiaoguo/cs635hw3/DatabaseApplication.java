@@ -12,58 +12,31 @@ public class DatabaseApplication {
     public static void main(String[] args) {
         Book book1 = new Book("firstBook", 10, IDGenerator.nextValue(), 1);
         Book book2 = new Book("SecondBook", 20, IDGenerator.nextValue(), 1);
+        Book book3 = new Book("Encyclopedia Galatica", 20, IDGenerator.nextValue(), 1);
         Inventory inventory = new InventoryDecorator(new BaseInventory());
-        DataSaveHelper.setInventory(inventory);
+
 
         Caretaker caretaker = new Caretaker();
         Originator originator = new Originator();
+        DataSaveHelper.setInventory(inventory, caretaker, originator);
 
         inventory.add(book1);
         inventory.add(book1);
-        originator.setState(inventory.getBooks());
-        caretaker.add(originator.createMemento());
-        DataSaveHelper.saveMemento(inventory);//debug line
         inventory.add(book2);
         inventory.sell(book1);
+        inventory.add(book2);
+        inventory.add(book2);
+        inventory.add(book2);
+        inventory.add(book2);
+        inventory.add(book2);
         inventory.changePrice(book1, 5);
         //com.zixiaoguo.cs635hw3.inventory.setBooks(originator.restoreState(caretaker.get()));
         System.out.println(inventory);
-
-
-
-        try {
-            FileOutputStream f = new FileOutputStream(new File("myObjects.ser"));
-            ObjectOutputStream o = new ObjectOutputStream(f);
-
-            // Write objects to file
-            o.writeObject(caretaker.getMomento());
-
-            o.close();
-            f.close();
-
-            FileInputStream fi = new FileInputStream(new File("myObjects.ser"));
-            ObjectInputStream oi = new ObjectInputStream(fi);
-
-            // Read objects
-            Memento memento1 = (Memento) oi.readObject();
-
-
-            System.out.println(memento1.toString());
-
-            oi.close();
-            fi.close();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        } catch (IOException e) {
-            System.out.println("Error initializing stream");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        //Gson gson = new Gson();
-
-
+        inventory.add(book2);
+        System.out.println("Before restoration =================");
+        DataSaveHelper.restoreFromMemento(inventory);
+        DataSaveHelper.restoreFromCommands();
+        System.out.println("NEw inventory" + inventory.getBooks());
 
 
 

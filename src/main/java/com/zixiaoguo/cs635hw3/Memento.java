@@ -7,7 +7,9 @@ public class Memento implements Serializable {
     private ArrayList<Book> state;
 
     public Memento(ArrayList<Book> state) {
-        this.state = new ArrayList<>(state);
+        //this.state = new ArrayList<>(state);
+        //TODO: maybe need to change here
+        this.state = state;
     }
 
     public ArrayList<Book> getState() {

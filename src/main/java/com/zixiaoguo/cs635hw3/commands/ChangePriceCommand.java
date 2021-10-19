@@ -1,6 +1,7 @@
 package com.zixiaoguo.cs635hw3.commands;
 
 import com.zixiaoguo.cs635hw3.Book;
+import com.zixiaoguo.cs635hw3.DataSaveHelper;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -25,6 +26,16 @@ public class ChangePriceCommand implements Command{
                 break;
             }
         }
+        DataSaveHelper.saveCommand(this);
         return books;
+    }
+
+    @Override
+    public String toString() {
+        return "ChangePriceCommand{" +
+                "books=" + books +
+                ", book=" + book +
+                ", newPrice=" + newPrice +
+                '}';
     }
 }

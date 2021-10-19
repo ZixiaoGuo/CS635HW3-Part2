@@ -2,6 +2,7 @@ package com.zixiaoguo.cs635hw3.commands;
 
 
 import com.zixiaoguo.cs635hw3.Book;
+import com.zixiaoguo.cs635hw3.DataSaveHelper;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,7 @@ public class SetBookCommand implements Command{
     @Override
     public ArrayList<Book> execute() {
         oldBooks = newBooks;
+        DataSaveHelper.saveCommand(this);
         return oldBooks;
     }
 
