@@ -18,13 +18,13 @@ public class DataSaveHelper {
     private static Originator originator;
 
 
-    public static void setInventory(Inventory inventory, Caretaker caretaker, Originator originator) {
+    public static void setParameters(Inventory inventory, Caretaker caretaker, Originator originator) {
         DataSaveHelper.inventory = inventory;
         DataSaveHelper.caretaker = caretaker;
         DataSaveHelper.originator = originator;
     }
 
-    public static void saveCommand(Command command) {
+    public static void saveCommand(Command command) throws IOException {
         // save one memento every 10 commands
 
         try {
@@ -55,7 +55,7 @@ public class DataSaveHelper {
     }
 
     //TODO: save memento rather than inventory
-    public static void saveMemento(Inventory inventory) {
+    public static void saveMemento(Inventory inventory) throws IOException {
         ArrayList<Book> books = inventory.getBooks();
         originator.setState(books);
         caretaker.add(originator.createMemento());
@@ -78,6 +78,8 @@ public class DataSaveHelper {
         }
         System.out.println("Memento saved ++++++" + caretaker.getMomento());
         commands.clear();   //we want to save empty commands to overwrite commands saved before for new memento
+        new FileOutputStream("savedCommand.ser").close();   //delete the contents in the savedCommand file
+        //TODO: save another command to clear the command file
         commandCounter = 0;
     }
 
@@ -109,7 +111,7 @@ public class DataSaveHelper {
         inventory.setBooks(memento.getState());
     }
 
-    public static void restoreFromCommands () {
+    public static void restoreFromCommands () throws IOException {
         ArrayList<Command> commands = null;
         try {
 
@@ -129,12 +131,11 @@ public class DataSaveHelper {
         } catch (IOException e) {
             System.out.println("Error initializing stream");
         } catch (ClassNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
         for (Command command : commands) {
-            inventory.setBooks(command.execute());
+            inventory.setBooks(command.execute(inventory.getBooks()));
             //command = new (AddBookCommand)Command;
         }
     }
