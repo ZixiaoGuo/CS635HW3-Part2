@@ -1,6 +1,7 @@
 package com.zixiaoguo.cs635hw3.inventory;
 
 import com.zixiaoguo.cs635hw3.Book;
+import com.zixiaoguo.cs635hw3.IDGenerator;
 import com.zixiaoguo.cs635hw3.commands.*;
 
 import java.io.IOException;
@@ -29,11 +30,11 @@ public class InventoryDecorator implements Inventory{
     }
 
     @Override
-    public boolean add(Book book) throws IOException {
+    public boolean addBook(String name, int price, int id) throws IOException {
         //Maybe Command cmd = new InsertBookCommand(inventory.getBooks())
         //then inventory.setBooks(cmd.execute(inventory.getBooks)
         //System.out.println("Before Insertion: " + inventory.getBooks());
-        Command cmd = new AddBookCommand(book);
+        Command cmd = new AddBookCommand(name, price, id);
         //inventory.setBooks(cmd.execute());
         cmd.execute(inventory.getBooks());
         //System.out.println(inventory.getBooks() + "AFTER INSERTION");
@@ -42,18 +43,16 @@ public class InventoryDecorator implements Inventory{
     }
 
     @Override
-    public boolean sell(Book book) throws IOException {
-        Command cmd = new SellBookCommand(book);
-        System.out.println("Before deletion: " + inventory.getBooks());
+    public boolean sellBook(String name) throws IOException {
+        Command cmd = new SellBookCommand(name);
         cmd.execute(inventory.getBooks());
-        System.out.println(inventory.getBooks() + "AFTER DELETION");
         return true;
     }
 
     @Override
-    public void changePrice(Book book, int newPrice) throws IOException {
+    public void changePrice(String name, int newPrice) throws IOException {
         //inventory.changePrice(book, newPrice);
-        Command cmd = new ChangePriceCommand(book, newPrice);
+        Command cmd = new ChangePriceCommand(name, newPrice);
         cmd.execute(inventory.getBooks());
     }
 

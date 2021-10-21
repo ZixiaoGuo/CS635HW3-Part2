@@ -6,13 +6,11 @@ import java.util.ArrayList;
 public class Memento implements Serializable {
     private ArrayList<Book> state;
 
-    public Memento(ArrayList<Book> state) {
-        //this.state = new ArrayList<>(state);
-        //TODO: maybe need to change here
+    protected Memento(ArrayList<Book> state) {
         this.state = state;
     }
 
-    public ArrayList<Book> getState() {
+    protected ArrayList<Book> getState() {
         return state;
     }
 

@@ -31,7 +31,6 @@ public class DataSaveHelper {
             FileOutputStream f = new FileOutputStream(new File("savedCommand.ser"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
-            // Write objects to file
             commands.add(command);
             o.writeObject(commands);
             commandCounter++;
@@ -47,7 +46,6 @@ public class DataSaveHelper {
             System.out.println("Error initializing stream");
             e.printStackTrace();
         }
-        System.out.println("Command saved ------" + command);
         if (commandCounter == 10) {
             saveMemento(inventory);
 
@@ -63,7 +61,6 @@ public class DataSaveHelper {
             FileOutputStream f = new FileOutputStream(new File("savedMemento.ser"));
             ObjectOutputStream o = new ObjectOutputStream(f);
 
-            // Write objects to file
             o.writeObject(caretaker.getMomento());
 
             o.close();
@@ -76,10 +73,8 @@ public class DataSaveHelper {
             System.out.println("Error initializing stream");
             e.printStackTrace();
         }
-        System.out.println("Memento saved ++++++" + caretaker.getMomento());
-        commands.clear();   //we want to save empty commands to overwrite commands saved before for new memento
+        commands.clear();   //we want to save empty commands and overwrite commands saved before for new memento
         new FileOutputStream("savedCommand.ser").close();   //delete the contents in the savedCommand file
-        //TODO: save another command to clear the command file
         commandCounter = 0;
     }
 
@@ -91,7 +86,6 @@ public class DataSaveHelper {
             FileInputStream f = new FileInputStream(new File("savedMemento.ser"));
             ObjectInputStream o = new ObjectInputStream(f);
 
-            // Read objects
             memento = (Memento) o.readObject();
 
             System.out.println("memento read from file: " +memento.toString());
@@ -108,7 +102,7 @@ public class DataSaveHelper {
             e.printStackTrace();
         }
 
-        inventory.setBooks(memento.getState());
+        inventory.setBooks(originator.restoreState(memento));
     }
 
     public static void restoreFromCommands () throws IOException {
@@ -118,7 +112,6 @@ public class DataSaveHelper {
             FileInputStream f = new FileInputStream(new File("savedCommand.ser"));
             ObjectInputStream o = new ObjectInputStream(f);
 
-            // Read objects
             commands = (ArrayList<Command>) o.readObject();
 
             System.out.println("command read from file: " +commands.toString());
@@ -136,7 +129,6 @@ public class DataSaveHelper {
 
         for (Command command : commands) {
             inventory.setBooks(command.execute(inventory.getBooks()));
-            //command = new (AddBookCommand)Command;
         }
     }
 

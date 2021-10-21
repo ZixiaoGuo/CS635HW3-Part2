@@ -6,7 +6,6 @@ public class Originator {
     private ArrayList<Book> state = new ArrayList<>();
 
     public Memento createMemento(){
-        System.out.println("memento saved");
         return new Memento(state);
     }
 

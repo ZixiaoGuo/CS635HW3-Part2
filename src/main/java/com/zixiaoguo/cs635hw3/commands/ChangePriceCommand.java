@@ -10,18 +10,18 @@ import java.util.Objects;
 public class ChangePriceCommand implements Command{
 
 
-    private Book book;
+    private String name;
     private int newPrice;
 
-    public ChangePriceCommand(Book book,int newPrice) {
-        this.book = book;
+    public ChangePriceCommand(String name,int newPrice) {
+        this.name = name;
         this.newPrice = newPrice;
     }
 
     @Override
     public ArrayList<Book> execute(ArrayList<Book> books) throws IOException {
         for (Book bookIterator : books) {
-            if (Objects.equals(bookIterator.getId(), book.getId())) {
+            if (Objects.equals(bookIterator.getName(), name)) {
                 bookIterator.setPrice(newPrice);
                 break;
             }
@@ -33,7 +33,7 @@ public class ChangePriceCommand implements Command{
     @Override
     public String toString() {
         return "ChangePriceCommand{" +
-                "book=" + book +
+                "name='" + name + '\'' +
                 ", newPrice=" + newPrice +
                 '}';
     }

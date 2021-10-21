@@ -1,7 +1,9 @@
 package com.zixiaoguo.cs635hw3.inventory;
 
 import com.zixiaoguo.cs635hw3.Book;
+import com.zixiaoguo.cs635hw3.IDGenerator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -25,39 +27,42 @@ public class BaseInventory implements Inventory {
         this.books = books;
     }
 
-    public boolean add(Book book) {
+    @Override
+    public boolean addBook(String name, int price, int id) throws IOException {
         boolean found = false;
         for (Book bookIterator : books) {
-            if (Objects.equals(bookIterator.getId(), book.getId())) {
+            if (Objects.equals(bookIterator.getName(), name)) {
                 found = true;
                 bookIterator.incrementQuantity();
                 break;
             }
         }
         if (!found) {
+            Book book = new Book(name, price, id, 1);
             books.add(book);
-            found = true;
         }
+        return true;
 
-        return found;
     }
 
-
-    public boolean sell(Book book) {
+    public boolean sellBook(String name) {
         boolean found = false;
         for (Book bookIterator : books) {
-            if (Objects.equals(bookIterator.getId(), book.getId())) {
+            if (Objects.equals(bookIterator.getName(), name) && bookIterator.getQuantity() > 0) {
                 found = true;
                 bookIterator.decrementQuantity();
                 break;
             }
         }
+        if (!found) {
+            throw new NoSuchElementException("No book with this name in the inventory");
+        }
         return found;
     }
 
-    public void changePrice (Book book, int newPrice) {
+    public void changePrice (String name, int newPrice) {
         for (Book bookIterator : books) {
-            if (Objects.equals(bookIterator.getId(), book.getId())) {
+            if (Objects.equals(bookIterator.getName(), name)) {
                 bookIterator.setPrice(newPrice);
                 break;
             }

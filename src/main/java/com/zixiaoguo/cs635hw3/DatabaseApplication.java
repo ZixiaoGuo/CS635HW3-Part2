@@ -9,9 +9,17 @@ import java.io.IOException;
 public class DatabaseApplication {
 
     static void createState() throws IOException {
-        Book book1 = new Book("firstBook", 10, IDGenerator.nextValue(), 1);
-        Book book2 = new Book("SecondBook", 20, IDGenerator.nextValue(), 1);
-        Book book3 = new Book("Encyclopedia Galatica", 20, IDGenerator.nextValue(), 1);
+
+        String book1 = "firstBook";
+        String book2 = "secondBook";
+        String book3 = "Encyclopedia Galatica";
+        String book4 = "4thBook";
+        String book5 = "5thBook";
+        int book1Id = IDGenerator.nextValue();
+        int book2Id = IDGenerator.nextValue();
+        int book3Id = IDGenerator.nextValue();
+        int book4Id = IDGenerator.nextValue();
+        int book5Id = IDGenerator.nextValue();
         Inventory inventory = new InventoryDecorator(new BaseInventory());
 
 
@@ -19,18 +27,20 @@ public class DatabaseApplication {
         Originator originator = new Originator();
         DataSaveHelper.setParameters(inventory, caretaker, originator);
 
-        inventory.add(book1);
-        inventory.add(book1);
-        inventory.add(book2);
-        inventory.sell(book1);
-        inventory.add(book2);
-        inventory.add(book2);
-        inventory.add(book2);
-        inventory.add(book2);
-        inventory.add(book2);
+        //I have to use ID as one of the parameters, or it will cause inconsistency issue
+        //When recovering from commands
+        inventory.addBook(book1, 10, book1Id);
+        inventory.addBook(book1, 10, book1Id);
+        inventory.addBook(book2, 20, book2Id);
+        inventory.sellBook(book1);
+        inventory.addBook(book2, 20, book2Id);
+        inventory.addBook(book2, 20, book2Id);
+        inventory.addBook(book2, 20, IDGenerator.nextValue());
+        inventory.addBook(book2, 20, IDGenerator.nextValue());
+        inventory.addBook(book2, 20, IDGenerator.nextValue());
         inventory.changePrice(book1, 5);
-        inventory.add(book3);
-        inventory.add(book3);
+        inventory.addBook(book3, 30, IDGenerator.nextValue());
+        inventory.addBook(book3, 30, IDGenerator.nextValue());
         System.out.println("This is the old inventory!!!!!!!!!!!!!!!" + inventory);
     }
 

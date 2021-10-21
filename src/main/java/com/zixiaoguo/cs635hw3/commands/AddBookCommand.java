@@ -2,6 +2,7 @@ package com.zixiaoguo.cs635hw3.commands;
 
 import com.zixiaoguo.cs635hw3.Book;
 import com.zixiaoguo.cs635hw3.DataSaveHelper;
+import com.zixiaoguo.cs635hw3.IDGenerator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,10 +10,14 @@ import java.util.Objects;
 
 public class AddBookCommand implements Command{
 
-    private Book book;
+    private String name;
+    private int price;
+    private int id;
 
-    public AddBookCommand(Book book) {
-        this.book = book;
+    public AddBookCommand(String name, int price, int id) {
+        this.name = name;
+        this.price = price;
+        this.id = id;
     }
 
 
@@ -22,26 +27,25 @@ public class AddBookCommand implements Command{
 
         boolean found = false;
         for (Book bookIterator : books) {
-            if (Objects.equals(bookIterator.getId(), book.getId())) {
+            if (Objects.equals(bookIterator.getName(), name)) {
                 found = true;
                 bookIterator.incrementQuantity();
                 break;
             }
         }
         if (!found) {
-            book.setQuantity(1);    // prevent incorrect quantity when recovering state from command
+            Book book = new Book(name, price, id, 1);
             books.add(book);
-            found = true;
         }
         DataSaveHelper.saveCommand(this);
-        //System.out.println("Command saved" + this);
         return books;
     }
 
     @Override
     public String toString() {
         return "AddBookCommand{" +
-                "book=" + book +
+                "name='" + name + '\'' +
+                ", price=" + price +
                 '}';
     }
 }

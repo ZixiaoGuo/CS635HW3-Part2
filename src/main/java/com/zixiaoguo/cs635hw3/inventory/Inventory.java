@@ -11,11 +11,11 @@ public interface Inventory {
 
     void setBooks(ArrayList<Book> books);
 
-    public boolean add(Book book) throws IOException;
+    public boolean addBook(String name, int price, int id) throws IOException;
 
-    public boolean sell(Book book) throws IOException;
+    public boolean sellBook(String name) throws IOException;
 
-    public void changePrice (Book book, int newPrice) throws IOException;
+    public void changePrice (String name, int newPrice) throws IOException;
 
     public int getPrice(int id);
 
