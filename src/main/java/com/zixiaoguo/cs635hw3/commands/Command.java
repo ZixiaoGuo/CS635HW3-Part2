@@ -7,6 +7,6 @@ import java.util.ArrayList;
 
 public interface Command extends Serializable {
 
-    public ArrayList<Book> execute();
+    public ArrayList<Book> execute(ArrayList<Book> books);
 
 }

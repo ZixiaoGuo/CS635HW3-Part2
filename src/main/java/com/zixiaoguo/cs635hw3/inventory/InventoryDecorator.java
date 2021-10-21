@@ -20,8 +20,10 @@ public class InventoryDecorator implements Inventory{
 
     @Override
     public void setBooks(ArrayList<Book> books) {
-        Command setBookCommand = new SetBookCommand(inventory.getBooks(), books);
-        setBookCommand.execute();
+        //Command setBookCommand = new SetBookCommand(inventory.getBooks(), books);
+        //setBookCommand.execute();
+        inventory.setBooks(books);
+        //TODO: fix the command
 
     }
 

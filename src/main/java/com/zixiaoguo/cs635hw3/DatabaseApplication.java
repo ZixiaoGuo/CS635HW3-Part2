@@ -9,7 +9,7 @@ import java.io.*;
 
 public class DatabaseApplication {
 
-    public static void main(String[] args) {
+    static void createState() {
         Book book1 = new Book("firstBook", 10, IDGenerator.nextValue(), 1);
         Book book2 = new Book("SecondBook", 20, IDGenerator.nextValue(), 1);
         Book book3 = new Book("Encyclopedia Galatica", 20, IDGenerator.nextValue(), 1);
@@ -30,15 +30,27 @@ public class DatabaseApplication {
         inventory.add(book2);
         inventory.add(book2);
         inventory.changePrice(book1, 5);
-        //com.zixiaoguo.cs635hw3.inventory.setBooks(originator.restoreState(caretaker.get()));
-        System.out.println(inventory);
-        inventory.add(book2);
-        System.out.println("Before restoration =================");
+        inventory.add(book3);
+        inventory.add(book3);
+        System.out.println("This is the old inventory!!!!!!!!!!!!!!!" + inventory);
+    }
+
+    static void restoreState() {
+        Inventory inventory = new InventoryDecorator(new BaseInventory());
+        Caretaker caretaker = new Caretaker();
+        Originator originator = new Originator();
+        DataSaveHelper.setInventory(inventory, caretaker, originator);
         DataSaveHelper.restoreFromMemento(inventory);
         DataSaveHelper.restoreFromCommands();
-        System.out.println("NEw inventory" + inventory.getBooks());
+        System.out.println("This is the NEW inventory**********************" + inventory);
+    }
 
+    public static void main(String[] args) {
 
+        createState();
+        restoreState();
 
     }
+
+
 }

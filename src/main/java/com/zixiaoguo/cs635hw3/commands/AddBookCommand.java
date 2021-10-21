@@ -19,7 +19,7 @@ public class AddBookCommand implements Command{
 
     //TODO: call helper to save command after execution
     @Override
-    public ArrayList<Book> execute() {
+    public ArrayList<Book> execute(ArrayList<Book> books) {
 
         boolean found = false;
         for (Book bookIterator : books) {

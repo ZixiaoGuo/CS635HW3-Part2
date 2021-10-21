@@ -1,5 +1,6 @@
 package com.zixiaoguo.cs635hw3;
 
+import com.zixiaoguo.cs635hw3.commands.AddBookCommand;
 import com.zixiaoguo.cs635hw3.commands.Command;
 import com.zixiaoguo.cs635hw3.inventory.BaseInventory;
 import com.zixiaoguo.cs635hw3.inventory.Inventory;
@@ -133,7 +134,8 @@ public class DataSaveHelper {
         }
 
         for (Command command : commands) {
-            command.execute();
+            inventory.setBooks(command.execute());
+            //command = new (AddBookCommand)Command;
         }
     }
 
